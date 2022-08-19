@@ -1,8 +1,10 @@
 package pl.jakubwichniarek.task.klg.solutions.model;
 
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -10,12 +12,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Lessor")
-public class Lessor {
+@Table(name = "Tenant")
+public class Tenant {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
-  @ManyToOne
-  private ObjectForRent objectForRent;
 }
