@@ -1,9 +1,9 @@
 package pl.jakubwichniarek.task.klg.solutions.service;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.jakubwichniarek.task.klg.solutions.converter.ReservationConverter;
-import pl.jakubwichniarek.task.klg.solutions.exception.ServiceException;
+import pl.jakubwichniarek.task.klg.solutions.exception.BadRequestException;
 import pl.jakubwichniarek.task.klg.solutions.exception.ResourceNotFoundException;
 import pl.jakubwichniarek.task.klg.solutions.helper.dto.ReservationDTO;
 import pl.jakubwichniarek.task.klg.solutions.model.Reservation;
@@ -14,7 +14,7 @@ import pl.jakubwichniarek.task.klg.solutions.repository.TenantRepository;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ReservationService {
 
   private final ReservationRepository reservationRepository;
@@ -29,11 +29,12 @@ public class ReservationService {
       Reservation save = reservationRepository.save(reservation);
       return reservationConverter.convertToDTO(save);
     }
-    throw new ServiceException(String.format("There is already a reservation between the given dates: %s - %s", dto.getDateFrom(), dto.getDateTo()));
+    throw new BadRequestException(String.format("There is already a reservation between the given dates: %s - %s", dto.getDateFrom(), dto.getDateTo()));
   }
 
   public ReservationDTO updateReservation(Long id, ReservationDTO dto) {
-    Reservation reservation = reservationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(String.format("Reservation with id: %d, not exists", id)));
+    Reservation reservation = reservationRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException(String.format("Reservation with id: %d, not exists", id)));
 
     reservation.setDateFrom(dto.getDateFrom());
     reservation.setDateTo(dto.getDateTo());
@@ -45,7 +46,6 @@ public class ReservationService {
   }
 
   public List<Reservation> findAllByTenantId(Long tenantId) {
-    List<Reservation> allByTenantId = reservationRepository.findAllByTenantId(tenantId);
     return reservationRepository.findAllByTenantId(tenantId);
   }
 

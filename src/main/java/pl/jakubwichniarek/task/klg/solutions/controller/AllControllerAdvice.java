@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import pl.jakubwichniarek.task.klg.solutions.exception.ServiceException;
+import pl.jakubwichniarek.task.klg.solutions.exception.BadRequestException;
 import pl.jakubwichniarek.task.klg.solutions.exception.ResourceNotFoundException;
 import pl.jakubwichniarek.task.klg.solutions.model.ErrorMessage;
 
@@ -15,8 +15,8 @@ import pl.jakubwichniarek.task.klg.solutions.model.ErrorMessage;
 @ControllerAdvice
 public class AllControllerAdvice extends ResponseEntityExceptionHandler {
 
-  @ExceptionHandler(ServiceException.class)
-  public ResponseEntity<Object> handleServiceException(ServiceException ex) {
+  @ExceptionHandler(BadRequestException.class)
+  public ResponseEntity<Object> handleBadRequestException(BadRequestException ex) {
     return buildErrorResponse(ex, HttpStatus.BAD_REQUEST);
   }
 
