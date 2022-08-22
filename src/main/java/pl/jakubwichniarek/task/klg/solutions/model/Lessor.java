@@ -16,6 +16,6 @@ public class Lessor {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
-  @ManyToOne
+  @OneToOne
   private ObjectForRent objectForRent;
 }
