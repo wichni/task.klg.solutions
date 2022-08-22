@@ -18,11 +18,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
           " JOIN re.lessor le " +
           " JOIN le.objectForRent ob " +
           "WHERE ob.id = ?1")
-  List<Reservation> findAllByObjectForRentId(Long objectForRent);
+  List<Reservation> findAllByObjectForRentId(Long objectForRentId);
 
   @Query("SELECT re " +
           "FROM Reservation re " +
-          "WHERE re.dateFrom = ?1 " +
-          " AND re.dateTo = ?2")
-  Reservation findByDateFromAndDateTo(LocalDate dateFrom, LocalDate dateTo);
+          " JOIN re.lessor le " +
+          " JOIN le.objectForRent ob " +
+          "WHERE ob.id = ?3 " +
+          "   AND ((?1 BETWEEN re.dateFrom AND re.dateTo) OR (?2 BETWEEN re.dateFrom AND re.dateTo)) " +
+          "   OR ((re.dateFrom BETWEEN ?1 AND ?2) OR (re.dateTo BETWEEN ?1 AND ?2))")
+  Reservation findByDateFromAndDateToAndByObjectForRentId(LocalDate dateFrom, LocalDate dateTo, Long objectForRentId);
 }

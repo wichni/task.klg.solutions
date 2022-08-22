@@ -3,7 +3,6 @@ package pl.jakubwichniarek.task.klg.solutions.controller;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.jakubwichniarek.task.klg.solutions.exception.ResourceNotFoundException;
@@ -40,19 +39,19 @@ public class ReservationController {
   public ResponseEntity<List<Reservation>> findAllByTenantId(@PathVariable(name = "tenant_id") Long tenantId) {
     logger.info("/task/reservation/tenant_id/{}", tenantId);
     List<Reservation> allByTenantId = reservationService.findAllByTenantId(tenantId);
-    if (allByTenantId.isEmpty())
+    if (!allByTenantId.isEmpty())
       return ResponseEntity.ok(allByTenantId);
     else
-      throw new ResourceNotFoundException(String.format("CODE: %s. No resources were found for the given id: %s", HttpStatus.NOT_FOUND, tenantId));
+      throw new ResourceNotFoundException(String.format("No resources were found for the given id: %d", tenantId));
   }
 
   @GetMapping("/reservation/object_for_rent_id/{object_for_rent_id}")
   public ResponseEntity<List<Reservation>> findAllByObjectForRentId(@PathVariable(name = "object_for_rent_id") Long objectForRentId) {
     logger.info("/task/reservation/object_for_rent_id/{}", objectForRentId);
     List<Reservation> allByObjectForRentId = reservationService.findAllByObjectForRentId(objectForRentId);
-    if (allByObjectForRentId.isEmpty())
+    if (!allByObjectForRentId.isEmpty())
       return ResponseEntity.ok(allByObjectForRentId);
     else
-      throw new ResourceNotFoundException(String.format("CODE: %s. No resources were found for the given id: %s", HttpStatus.NOT_FOUND, objectForRentId));
+      throw new ResourceNotFoundException(String.format("No resources were found for the given id: %d", objectForRentId));
   }
 }

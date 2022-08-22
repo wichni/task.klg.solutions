@@ -3,8 +3,8 @@ package pl.jakubwichniarek.task.klg.solutions.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.jakubwichniarek.task.klg.solutions.converter.ReservationConverter;
-import pl.jakubwichniarek.task.klg.solutions.exception.ResourceNotFoundException;
 import pl.jakubwichniarek.task.klg.solutions.exception.ServiceException;
+import pl.jakubwichniarek.task.klg.solutions.exception.ResourceNotFoundException;
 import pl.jakubwichniarek.task.klg.solutions.helper.dto.ReservationDTO;
 import pl.jakubwichniarek.task.klg.solutions.model.Reservation;
 import pl.jakubwichniarek.task.klg.solutions.repository.LessorRepository;
@@ -23,13 +23,13 @@ public class ReservationService {
   private final TenantRepository tenantRepository;
 
   public ReservationDTO addNewReservation(ReservationDTO dto) {
-    Reservation byDateFromAndDateTo = reservationRepository.findByDateFromAndDateTo(dto.getDateFrom(), dto.getDateTo());
+    Reservation byDateFromAndDateTo = reservationRepository.findByDateFromAndDateToAndByObjectForRentId(dto.getDateFrom(), dto.getDateTo(), dto.getObjectForRentId());
     if (byDateFromAndDateTo == null) {
       Reservation reservation = reservationConverter.convertToEntity(dto);
       Reservation save = reservationRepository.save(reservation);
       return reservationConverter.convertToDTO(save);
     }
-    throw new ServiceException(String.format("There is already a reservation for the given dates: %s - %s", dto.getDateFrom(), dto.getDateTo()));
+    throw new ServiceException(String.format("There is already a reservation between the given dates: %s - %s", dto.getDateFrom(), dto.getDateTo()));
   }
 
   public ReservationDTO updateReservation(Long id, ReservationDTO dto) {
@@ -45,6 +45,7 @@ public class ReservationService {
   }
 
   public List<Reservation> findAllByTenantId(Long tenantId) {
+    List<Reservation> allByTenantId = reservationRepository.findAllByTenantId(tenantId);
     return reservationRepository.findAllByTenantId(tenantId);
   }
 

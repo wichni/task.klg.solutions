@@ -17,5 +17,6 @@ public class Lessor {
   private Long id;
   private String name;
   @OneToOne
+  @JoinColumn(name = "object_for_rent_id")
   private ObjectForRent objectForRent;
 }
