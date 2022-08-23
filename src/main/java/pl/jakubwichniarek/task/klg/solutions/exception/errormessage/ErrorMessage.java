@@ -1,4 +1,4 @@
-package pl.jakubwichniarek.task.klg.solutions.model;
+package pl.jakubwichniarek.task.klg.solutions.exception.errormessage;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

@@ -23,7 +23,7 @@ public class ReservationConverter extends Converter<Reservation, ReservationDTO>
     reservation.setDateFrom(dto.getDateFrom());
     reservation.setDateTo(dto.getDateTo());
     reservation.setLessor(lessorRepository.findLessorByObjectForRentId(dto.getObjectForRentId()));
-    reservation.setTenant(tenantRepository.findById(dto.getTenantId()).get());
+    reservation.setTenant(tenantRepository.findById(dto.getTenantId()).isPresent() ? tenantRepository.findById(dto.getTenantId()).get() : null);
     reservation.setCost(calculateCostByDaysUtil.calculateCostMultiplyDays(dto));
     return reservation;
   }
@@ -43,7 +43,7 @@ public class ReservationConverter extends Converter<Reservation, ReservationDTO>
     reservation.setDateFrom(dto.getDateFrom());
     reservation.setDateTo(dto.getDateTo());
     reservation.setLessor(lessorRepository.findLessorByObjectForRentId(dto.getObjectForRentId()));
-    reservation.setTenant(tenantRepository.findById(tenantId).get());
+    reservation.setTenant(tenantRepository.findById(tenantId).isPresent() ? tenantRepository.findById(tenantId).get() : null);
     reservation.setCost(calculateCostByDaysUtil.calculateCostMultiplyDays(dto));
     return reservation;
   }

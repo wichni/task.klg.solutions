@@ -21,8 +21,7 @@ public class ReservationService {
 
   @Transactional
   public ReservationDTO addNewReservation(ReservationDTO dto) {
-    List<Reservation> byDateFromAndDateTo = reservationRepository.findByDateFromAndDateToAndByObjectForRentId(dto.getDateFrom(), dto.getDateTo(), dto.getObjectForRentId());
-    if (byDateFromAndDateTo.isEmpty()) {
+    if (checkFlatAvailability(dto)) {
       Reservation reservation = reservationConverter.convertToEntity(dto);
       Reservation save = reservationRepository.save(reservation);
       return reservationConverter.convertToDTO(save, dto.getObjectForRentId());
@@ -39,9 +38,7 @@ public class ReservationService {
 
     reservationRepository.delete(reservation);
 
-    List<Reservation> byDateFromAndDateTo = reservationRepository.findByDateFromAndDateToAndByObjectForRentId(dto.getDateFrom(), dto.getDateTo(), dto.getObjectForRentId());
-
-    if (byDateFromAndDateTo.isEmpty()) {
+    if (checkFlatAvailability(dto)) {
       Reservation convertReservation = reservationConverter.convertToEntity(tenantId, dto);
 
       Reservation save = reservationRepository.save(convertReservation);
@@ -50,11 +47,15 @@ public class ReservationService {
       throw new BadRequestException(String.format("There is already a reservation between the given dates: %s - %s", dto.getDateFrom(), dto.getDateTo()));
   }
 
-  public List<Reservation> findAllByTenantId(Long tenantId) {
-    return reservationRepository.findAllByTenantId(tenantId);
+  public List<Reservation> findAllByTenantName(String tenantName) {
+    return reservationRepository.findAllByTenantName(tenantName);
   }
 
   public List<Reservation> findAllByObjectForRentId(Long objectForRentId) {
     return reservationRepository.findAllByObjectForRentId(objectForRentId);
+  }
+
+  private boolean checkFlatAvailability(ReservationDTO dto) {
+    return reservationRepository.checkReservationsByDateFromAndDateToAndByObjectForRentId(dto.getDateFrom(), dto.getDateTo(), dto.getObjectForRentId());
   }
 }
