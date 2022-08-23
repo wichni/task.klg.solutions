@@ -1,4 +1,4 @@
-package pl.jakubwichniarek.task.klg.solutions.controller;
+package pl.jakubwichniarek.task.klg.solutions.controller.reservation;
 
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -10,6 +10,7 @@ import pl.jakubwichniarek.task.klg.solutions.helper.dto.ReservationDTO;
 import pl.jakubwichniarek.task.klg.solutions.model.Reservation;
 import pl.jakubwichniarek.task.klg.solutions.service.ReservationService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ public class ReservationController {
   private final ReservationService reservationService;
 
   @PostMapping("/reservation")
-  public ResponseEntity<ReservationDTO> save(@RequestBody ReservationDTO reservationDTO) {
+  public ResponseEntity<ReservationDTO> save(@Valid @RequestBody ReservationDTO reservationDTO) {
     logger.info("/task/reservation, model: {}", reservationDTO);
     ReservationDTO dto = reservationService.addNewReservation(reservationDTO);
     return ResponseEntity.ok(dto);
@@ -29,7 +30,7 @@ public class ReservationController {
 
   @PutMapping("/reservation/id/{id}")
   public ResponseEntity<ReservationDTO> update(@PathVariable(name = "id") Long id,
-                                               @RequestBody ReservationDTO reservationDTO) {
+                                               @Valid @RequestBody ReservationDTO reservationDTO) {
     logger.info("/task/reservation/id/{}, model: {}", id, reservationDTO);
     ReservationDTO dto = reservationService.updateReservation(id, reservationDTO);
     return ResponseEntity.ok(dto);

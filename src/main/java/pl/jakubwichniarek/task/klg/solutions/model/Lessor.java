@@ -1,8 +1,10 @@
 package pl.jakubwichniarek.task.klg.solutions.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,7 +18,7 @@ public class Lessor {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
-  @OneToOne
-  @JoinColumn(name = "object_for_rent_id")
-  private ObjectForRent objectForRent;
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "lessor")
+  @JsonBackReference
+  private List<ObjectForRent> objectForRentList;
 }

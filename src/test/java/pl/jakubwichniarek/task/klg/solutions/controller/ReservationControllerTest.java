@@ -7,8 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import pl.jakubwichniarek.task.klg.solutions.controller.reservation.ReservationController;
 import pl.jakubwichniarek.task.klg.solutions.model.Lessor;
-import pl.jakubwichniarek.task.klg.solutions.model.ObjectForRent;
 import pl.jakubwichniarek.task.klg.solutions.model.Reservation;
 import pl.jakubwichniarek.task.klg.solutions.model.Tenant;
 
@@ -61,7 +61,6 @@ public class ReservationControllerTest {
     Lessor lessor = new Lessor();
     lessor.setId(5L);
     lessor.setName("Weronika Abc");
-    lessor.setObjectForRent(getObjectForRent());
     return lessor;
   }
 
@@ -70,16 +69,6 @@ public class ReservationControllerTest {
     tenant.setId(2L);
     tenant.setName("Student");
     return tenant;
-  }
-
-  private ObjectForRent getObjectForRent() {
-    ObjectForRent objectForRent = new ObjectForRent();
-    objectForRent.setId(1L);
-    objectForRent.setName("Pokój dla studenta");
-    objectForRent.setUnitPrice(new BigDecimal("123.90"));
-    objectForRent.setSurface(9.1);
-    objectForRent.setDescription("Pokój jednoosobowy dla osoby studiującej. W mieszkaniu jest kuchnia, łazienka i balkon.");
-    return objectForRent;
   }
 }
 

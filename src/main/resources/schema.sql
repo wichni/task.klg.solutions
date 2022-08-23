@@ -1,18 +1,18 @@
+create table if not exists lessor (
+    id BIGINT NOT NULL,
+    name VARCHAR(100),
+    PRIMARY KEY (id)
+);
+
 create table if not exists object_for_rent (
     id BIGINT NOT NULL,
     name VARCHAR(100) NOT NULL,
     unit_price DECIMAL,
     surface DECIMAL,
     description VARCHAR(500),
-    PRIMARY KEY (id)
-);
-
-create table if not exists lessor (
-    id BIGINT NOT NULL,
-    name VARCHAR(100),
-    object_for_rent_id BIGINT NOT NULL,
+    lessor_id BIGINT,
     PRIMARY KEY (id),
-    FOREIGN KEY (object_for_rent_id) REFERENCES object_for_rent(id)
+    FOREIGN KEY (lessor_id) REFERENCES lessor(id)
 );
 
 create table if not exists tenant (

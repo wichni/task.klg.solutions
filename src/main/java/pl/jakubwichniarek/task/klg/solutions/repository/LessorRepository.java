@@ -10,7 +10,7 @@ public interface LessorRepository extends JpaRepository<Lessor, Long> {
 
   @Query("SELECT le " +
           "FROM Lessor le " +
-          " JOIN le.objectForRent ob " +
+          " JOIN le.objectForRentList ob " +
           "WHERE ob.id = ?1")
   Lessor findLessorByObjectForRentId(Long objectForRentId);
 }

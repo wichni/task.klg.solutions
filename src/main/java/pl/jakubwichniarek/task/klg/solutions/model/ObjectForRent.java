@@ -1,5 +1,6 @@
 package pl.jakubwichniarek.task.klg.solutions.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,4 +22,8 @@ public class ObjectForRent {
   private BigDecimal unitPrice;
   private Double surface;
   private String description;
+  @ManyToOne
+  @JoinColumn(name = "lessor_id")
+  @JsonManagedReference
+  private Lessor lessor;
 }
