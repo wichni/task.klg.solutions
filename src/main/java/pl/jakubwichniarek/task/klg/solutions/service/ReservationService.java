@@ -2,6 +2,7 @@ package pl.jakubwichniarek.task.klg.solutions.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.jakubwichniarek.task.klg.solutions.converter.ReservationConverter;
 import pl.jakubwichniarek.task.klg.solutions.exception.BadRequestException;
 import pl.jakubwichniarek.task.klg.solutions.exception.ResourceNotFoundException;
@@ -22,6 +23,7 @@ public class ReservationService {
   private final LessorRepository lessorRepository;
   private final TenantRepository tenantRepository;
 
+  @Transactional
   public ReservationDTO addNewReservation(ReservationDTO dto) {
     Reservation byDateFromAndDateTo = reservationRepository.findByDateFromAndDateToAndByObjectForRentId(dto.getDateFrom(), dto.getDateTo(), dto.getObjectForRentId());
     if (byDateFromAndDateTo == null) {
@@ -32,6 +34,7 @@ public class ReservationService {
     throw new BadRequestException(String.format("There is already a reservation between the given dates: %s - %s", dto.getDateFrom(), dto.getDateTo()));
   }
 
+  @Transactional
   public ReservationDTO updateReservation(Long id, ReservationDTO dto) {
     Reservation reservation = reservationRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException(String.format("Reservation with id: %d, not exists", id)));
