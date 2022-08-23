@@ -13,10 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Entity
 @Table(name = "object_for_rent")
-public class ObjectForRent {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+public class ObjectForRent extends BaseEntity {
   private String name;
   @Column(name = "unit_price")
   private BigDecimal unitPrice;

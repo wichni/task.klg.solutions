@@ -1,10 +1,8 @@
 package pl.jakubwichniarek.task.klg.solutions.model;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -13,9 +11,6 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name = "tenant")
-public class Tenant {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+public class Tenant extends BaseEntity {
   private String name;
 }

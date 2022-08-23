@@ -13,10 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "lessor")
-public class Lessor {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+public class Lessor extends BaseEntity {
   private String name;
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "lessor")
   @JsonBackReference
